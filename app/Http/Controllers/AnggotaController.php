@@ -19,15 +19,13 @@ class AnggotaController extends Controller
      */
     public function index()
     {
-
-        $anggota = Anggota::find(1)->getSaksi;
-        return $anggota;
-        $anggota = Anggota::where('is_saksi', '!=', '1')->latest()->paginate(10);
+        $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+        // return $anggota;
         return response()->view('admin.anggota.index', [
             'anggota' => $anggota
         ]);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -35,8 +33,12 @@ class AnggotaController extends Controller
      */
     public function create()
     {
+        // $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+        return response()->view('admin.anggota.create', [
+            // 'anggota' => $anggota
+        ]);
         //
-        return 123;
+        // return 123;
     }
 
     /**

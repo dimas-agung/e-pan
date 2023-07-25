@@ -31,3 +31,7 @@ Route::controller(App\Http\Controllers\AnggotaController::class)->group(function
     Route::delete('/anggota/{anggota}', 'destroy')->name('anggota.destroy');
     Route::get('/api/data_anggota', 'dataanggota')->name('anggota.data_anggota');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

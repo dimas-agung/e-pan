@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,13 +16,13 @@ class Anggota extends Model
     {
         return $this->belongsTo(Saksi::class, 'nik', 'nik');
     }
-    public function getSaksi()
+    
+    public function scopeSaksi(Builder $query): void
     {
-        return 'lowest price';
-        return $this->where(['is_saksi', 1]);
+        $query->where('is_saksi', true);
     }
-    function isSaksi()
+    public function scopeAnggota(Builder $query): void
     {
-        $this->where(['is_saksi', 1]);
+        $query->where('is_saksi', false);
     }
 }
