@@ -72,7 +72,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item {{ request()->is('employee') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->is('anggota') ? 'active' : '' }}">
                 <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#nav-karyawan"
                     aria-expanded="true" aria-controls="nav-karyawan">
                     <i class="fas fa-fw fa-cog"></i>
@@ -84,7 +84,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header ">Data Anggota</h6>
                         <a class="collapse-item "
-                            href="">Karyawan</a>
+                            href="{{ url('anggota') }}">Anggota</a>
                         
                     </div>
                 </div>

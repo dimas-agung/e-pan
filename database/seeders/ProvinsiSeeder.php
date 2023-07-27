@@ -25,7 +25,7 @@ class ProvinsiSeeder extends Seeder
             ["id" => 18, "provinsi" => "LAMPUNG"],
             ["id" => 19, "provinsi" => "KEPULAUAN BANGKA BELITUNG"],
             ["id" => 21, "provinsi" => "KEPULAUAN RIAU"],
-            ["id" => 31, "provinsi" => "DKI JAKARTA"],
+            ["id" => 31, "provinsi" => "DKI JAKARTA"],  
             ["id" => 32, "provinsi" => "JAWA BARAT"],
             ["id" => 33, "provinsi" => "JAWA TENGAH"],
             ["id" => 34, "provinsi" => "DI YOGYAKARTA"],

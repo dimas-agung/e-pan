@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('dasboard');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::controller(App\Http\Controllers\AnggotaController::class)->group(function () {

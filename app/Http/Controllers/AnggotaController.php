@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\Kabupaten;
 use App\Models\Provinsi;
 use Illuminate\Http\Request;
 
@@ -37,8 +38,10 @@ class AnggotaController extends Controller
     public function create()
     {
         // $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+        $provinsi = Provinsi::orderBy('provinsi')->get();
         return response()->view('admin.anggota.create', [
             // 'anggota' => $anggota
+            'provinsi' => $provinsi
         ]);
         //
         // return 123;
@@ -79,6 +82,7 @@ class AnggotaController extends Controller
         // return response()
         //     ->json($anggota);
         return redirect('anggota')->with('success', 'Data Anggota berhasil disimpan!');
+        
     }
 
     /**
@@ -98,9 +102,15 @@ class AnggotaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Anggota $anggota)
     {
         //
+        $provinsi = Provinsi::orderBy('provinsi')->get();
+        return response()->view('admin.anggota.edit', [
+            'anggota' => $anggota,
+            'provinsi' => $provinsi
+        ]);
+
     }
 
     /**
@@ -113,6 +123,7 @@ class AnggotaController extends Controller
     public function update(Request $request, Anggota $anggota)
     {
         //
+        // return $anggota;
         $validated = $request->validate([
             'nik' => ['required'],
             'nama' => ['required'],

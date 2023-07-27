@@ -217,7 +217,7 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Provinsi</label>
-                                                <select name="provinsi" id="provinsi" class="form-control" required
+                                                <select name="provinsi_id" id="provinsi_id" class="form-control" required
                                                     onchange="getKabupaten()">
                                                     <option value="1"> -- Pilih Provinsi --</option>
                                                     @foreach ($provinsi as $item)
@@ -225,15 +225,19 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
+                                                <input type="hidden" name="provinsi" id="provinsi" class="form-control"
+                                                    required />
                                             </div>
 
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Kabupaten/Kota</label>
-                                                <select name="kabupaten" id="kabupaten" class="form-control" required>
-                                                    <option value="1"> -- Pilih Kabupaten/Kota --</option>
+                                                <select name="kabupaten_id" id="kabupaten_id" class="form-control" required onchange="getKecamatan()">
+                                                    <option value=""> -- Pilih Kabupaten/Kota --</option>
                                                 </select>
+                                                <input type="hidden" name="kabupaten" id="kabupaten" class="form-control"
+                                                    required />
                                             </div>
 
                                         </div>
@@ -242,18 +246,22 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Kecamatan</label>
-                                                <select name="kecamatan" id="kecamatan" class="form-control" required>
-                                                    <option value="1"> -- Pilih Kecamatan--</option>
+                                                <select name="kecamatan_id" id="kecamatan_id" class="form-control" required onchange="getDesa()">
+                                                    <option value=""> -- Pilih Kecamatan--</option>
                                                 </select>
+                                                <input type="hidden" name="kecamatan" id="kecamatan" class="form-control"
+                                                    required />
                                             </div>
 
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Desa/Keluarahan</label>
-                                                <select name="desa" id="desa" class="form-control" required>
-                                                    <option value="1"> -- Pilih Desa/Keluarahan --</option>
+                                                <select name="desa_id" id="desa_id" class="form-control" required onchange="getDesaName()">
+                                                    <option value=""> -- Pilih Desa/Keluarahan --</option>
                                                 </select>
+                                                <input type="hidden" name="desa" id="desa" class="form-control"
+                                                    required />
                                             </div>
 
                                         </div>
@@ -385,11 +393,22 @@
         });
     </script>
     <script>
-        function getKabupaten(params) {
-            let department_code = $('#department_code').val()
-            $('#kabupatem')
+        function getKabupaten() {
+            let provinsi_id = $('#provinsi_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('provinsi.index') }}",
+                data: {
+                    provinsi_id: provinsi_id
+                },
+                success: function(response) {
+                    $('#provinsi').val(response.provinsi)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#kabupaten_id')
                 .empty()
-                .append('<option selected="selected" value="">-- PILIH KOTA?KABUPATEN --</option>');
+                .append('<option selected="selected" value="">-- Pilih Kota/Kabupaten --</option>');
             $.ajax({
                 type: "GET",
                 url: "{{ route('kabupaten.index') }}",
@@ -400,11 +419,92 @@
                     let no = 1;
                     let data = [];
                     $.each(response, function() {
-                        $('#kabupaten').append(
+                        $('#kabupaten_id').append(
                             `<option value="${this.id}">${this.kabupaten}</option>`);
+                    });
+
+                }
+            })
+        }
+        function getKecamatan() {
+            let kabupaten_id = $('#kabupaten_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kabupaten.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    $('#kabupaten').val(response.kabupaten)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#kecamatan_id')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Kecamatan --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#kecamatan_id').append(
+                            `<option value="${this.id}">${this.kecamatan}</option>`);
 
                     });
 
+                }
+            })
+        }
+        function getDesa() {
+            let kecamatan_id = $('#kecamatan_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    $('#kecamatan').val(response.kecamatan)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#desa_id')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Desa --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#desa_id').append(
+                            `<option value="${this.id}">${this.desa}</option>`);
+
+                    });
+
+                }
+            })
+        }
+        function getDesaName() {
+            let desa_id = $('#desa_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    desa_id: desa_id
+                },
+                success: function(response) {
+                    $('#desa').val(response.desa)
+                    // console.log($('#kabupaten').val());
                 }
             })
         }

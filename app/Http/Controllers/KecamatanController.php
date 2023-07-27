@@ -10,7 +10,13 @@ class KecamatanController extends Controller
     //
     public function index(Request $request)
     {
-        if ($request->input('kabupaten_id')) {
+        if ($request->input('kecamatan_id')) {
+            # code...
+            $kecamatan = Kecamatan::find($request->input('kecamatan_id'));
+        }else if ($request->input('kecamatan')) {
+            # code...
+            $kecamatan = Kecamatan::where('kecamatan',$request->input('kecamatan'))->first();
+        }else if ($request->input('kabupaten_id')) {
             # code...
             $kecamatan = Kecamatan::where('kabupaten_id', $request->input('kabupaten_id'))->orderBy('kecamatan')->get();;
         } else {
