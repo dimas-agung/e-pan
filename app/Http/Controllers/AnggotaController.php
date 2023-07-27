@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anggota;
+use App\Models\Provinsi;
 use Illuminate\Http\Request;
 
 class AnggotaController extends Controller
@@ -21,11 +22,13 @@ class AnggotaController extends Controller
     {
         $anggota = Anggota::query()->anggota()->latest()->paginate(10);
         // return $anggota;
+        $provinsi = Provinsi::orderBy('provinsi')->get();
         return response()->view('admin.anggota.index', [
-            'anggota' => $anggota
+            'anggota' => $anggota,
+            'provinsi' => $provinsi
         ]);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *

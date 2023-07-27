@@ -165,10 +165,11 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Institusi Pendidikan</label>
-                                                <input type="text" name="institusi_pendidikan" id="institusi_pendidikan"
-                                                    class="form-control" required value="{{ old('institusi_pendidikan') }}"/>
+                                                <input type="text" name="institusi_pendidikan"
+                                                    id="institusi_pendidikan" class="form-control" required
+                                                    value="{{ old('institusi_pendidikan') }}" />
                                             </div>
-    
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -177,31 +178,35 @@
                                                 <label>Pekerjaan</label>
                                                 <select name="pekerjaan" id="pekerjaan" class="form-control" required>
                                                     <option value=""> -- Pilih Pekerjaan --</option>
-                                                    <option value="Pegawai Negeri Sipil" @selected(old('pekerjaan') == 'Pegawai Negeri Sipil')>Pegawai
+                                                    <option value="Pegawai Negeri Sipil" @selected(old('pekerjaan') == 'Pegawai Negeri Sipil')>
+                                                        Pegawai
                                                         Negeri Sipil</option>
-                                                    <option value="Karyawan BUMN" @selected(old('pekerjaan') == 'Karyawan BUMN')>Karyawan BUMN
+                                                    <option value="Karyawan BUMN" @selected(old('pekerjaan') == 'Karyawan BUMN')>Karyawan
+                                                        BUMN
                                                     </option>
                                                     <option value="Karyawan Swasta" @selected(old('pekerjaan') == 'Karyawan Swasta')>Karyawan
                                                         Swasta</option>
-                                                    <option value="Wirausaha" @selected(old('pekerjaan') == 'Wirausaha')>Wirausaha</option>
+                                                    <option value="Wirausaha" @selected(old('pekerjaan') == 'Wirausaha')>Wirausaha
+                                                    </option>
                                                     <option value="Pelajar/Mahasiswa" @selected(old('pekerjaan') == 'Pelajar/Mahasiswa')>
                                                         Pelajar/Mahasiswa</option>
                                                     <option value="Mengurus Rumah Tangga" @selected(old('pekerjaan') == 'Mengurus Rumah Tangga')>
                                                         Mengurus Rumah Tangga</option>
                                                     <option value="Petani" @selected(old('pekerjaan') == 'Petani')>Petani</option>
-                                                    <option value="Pensiunan" @selected(old('pekerjaan') == 'Pensiunan')>Pensiunan</option>
+                                                    <option value="Pensiunan" @selected(old('pekerjaan') == 'Pensiunan')>Pensiunan
+                                                    </option>
                                                     <option value="Aparat" @selected(old('pekerjaan') == 'Aparat')>Aparat</option>
                                                     <option value="Lainnya" @selected(old('pekerjaan') == 'Lainnya')>Lainnya</option>
                                                 </select>
                                             </div>
-    
+
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-    
+
                                                 <label>No Telepon</label>
                                                 <input type="text" name="telpon" id="telpon" class="form-control"
-                                                    required value="{{ old('telpon') }}"/>
+                                                    required value="{{ old('telpon') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -212,11 +217,16 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Provinsi</label>
-                                                <select name="provinsi" id="provinsi" class="form-control" required>
+                                                <select name="provinsi" id="provinsi" class="form-control" required
+                                                    onchange="getKabupaten()">
                                                     <option value="1"> -- Pilih Provinsi --</option>
+                                                    @foreach ($provinsi as $item)
+                                                        <option value="{{ $item->id }}"> {{ $item->provinsi }}
+                                                        </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
-        
+
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -225,7 +235,7 @@
                                                     <option value="1"> -- Pilih Kabupaten/Kota --</option>
                                                 </select>
                                             </div>
-        
+
                                         </div>
                                     </div>
                                     <div class="row">
@@ -236,7 +246,7 @@
                                                     <option value="1"> -- Pilih Kecamatan--</option>
                                                 </select>
                                             </div>
-        
+
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
@@ -245,34 +255,36 @@
                                                     <option value="1"> -- Pilih Desa/Keluarahan --</option>
                                                 </select>
                                             </div>
-        
+
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label>Alamat</label>
-                                                <textarea name="alamat" id="alamat" cols="30" rows="2" class="form-control" required >{{ old('alamat') }}</textarea>
+                                                <textarea name="alamat" id="alamat" cols="30" rows="2" class="form-control" required>{{ old('alamat') }}</textarea>
                                             </div>
-        
+
                                         </div>
-        
+
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>RT</label>
-                                                <input type="text" name="rt" id="rw" class="form-control" value="{{ old('rt') }}" required/>
+                                                <input type="text" name="rt" id="rw" class="form-control"
+                                                    value="{{ old('rt') }}" required />
                                             </div>
-        
+
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
-        
+
                                                 <label>RW</label>
-                                                <input type="text" name="rw" id="rw" class="form-control"value="{{ old('rw') }}" required/>
+                                                <input type="text" name="rw" id="rw"
+                                                    class="form-control"value="{{ old('rw') }}" required />
                                             </div>
-        
+
                                         </div>
                                     </div>
                                 </div>
@@ -302,7 +314,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                </form>
+                            </form>
                         </div>
 
                     </div>
@@ -371,5 +383,30 @@
                 img.alt = file.name
             }
         });
+    </script>
+    <script>
+        function getKabupaten(params) {
+            let department_code = $('#department_code').val()
+            $('#kabupatem')
+                .empty()
+                .append('<option selected="selected" value="">-- PILIH KOTA?KABUPATEN --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kabupaten.index') }}",
+                data: {
+                    provinsi_id: provinsi_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#kabupaten').append(
+                            `<option value="${this.id}">${this.kabupaten}</option>`);
+
+                    });
+
+                }
+            })
+        }
     </script>
 @endsection

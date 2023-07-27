@@ -31,6 +31,20 @@ Route::controller(App\Http\Controllers\AnggotaController::class)->group(function
     Route::delete('/anggota/{anggota}', 'destroy')->name('anggota.destroy');
     Route::get('/api/data_anggota', 'dataanggota')->name('anggota.data_anggota');
 });
+Route::prefix('/wilayah')->group(function () {
+    Route::controller(App\Http\Controllers\ProvinsiController::class)->group(function () {
+        Route::get('/provinsi', 'index')->name('provinsi.index');
+    });
+    Route::controller(App\Http\Controllers\KabupatenController::class)->group(function () {
+        Route::get('/kabupaten', 'index')->name('kabupaten.index');
+    });
+    Route::controller(App\Http\Controllers\KecamatanController::class)->group(function () {
+        Route::get('/kecamatan', 'index')->name('kecamatan.index');
+    });
+    Route::controller(App\Http\Controllers\DesaController::class)->group(function () {
+        Route::get('/desa', 'index')->name('desa.index');
+    });
+});
 
 Auth::routes();
 
