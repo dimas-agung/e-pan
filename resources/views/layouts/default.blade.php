@@ -87,6 +87,29 @@
                             href="{{ url('anggota') }}">Anggota</a>
                         
                     </div>
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header ">Data Saksi</h6>
+                        <a class="collapse-item "
+                            href="{{ url('saksi') }}">Saksi</a>
+                        
+                    </div>
+                </div>
+            </li>
+            <li class="nav-item {{ request()->is('tps') ? 'active' : '' }}">
+                <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#nav-tps"
+                    aria-expanded="true" aria-controls="nav-tps">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Data TPS</span>
+                </a>
+                <div id="nav-tps"
+                    class="collapse"
+                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header ">Data TPS</h6>
+                        <a class="collapse-item "
+                            href="{{ url('tps') }}">TPS</a>
+                        
+                    </div>
                 </div>
             </li>
 

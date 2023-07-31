@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('tps', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_tps');
-            $table->string('lokasi');
+            $table->string('kode_tps')->nullable();
+            $table->string('provinsi');
+            $table->string('kabupaten');
+            $table->string('kecamatan');
+            $table->string('desa');
+            $table->integer('jumlah');
             $table->timestamps();
         });
     }

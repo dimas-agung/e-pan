@@ -19,9 +19,15 @@ class AnggotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+        if ($request->input('search')) {
+           
+            $anggota = Anggota::query()->anggota()->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        }else{
+            $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+
+        }
         // return $anggota;
         $provinsi = Provinsi::orderBy('provinsi')->get();
         return response()->view('admin.anggota.index', [
@@ -56,7 +62,7 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nik' => ['required'],
+            'nik' => ['required','unique:anggota,nik'],
             'nama' => ['required'],
             'tempat_lahir' => ['required'],
             'tanggal_lahir' => ['required'],
@@ -77,6 +83,9 @@ class AnggotaController extends Controller
             'rw' => ['required'],
             'alamat' => ['required'],
 
+        ],[
+            'nik.unique' => 'NIK Anggota sudah pernah didaftarkan !',
+            'required' => ' :Tidak boleh kosong!'
         ]);
         $anggota = Anggota::create($validated);
         // return response()
@@ -125,6 +134,7 @@ class AnggotaController extends Controller
         //
         // return $anggota;
         $validated = $request->validate([
+            // 'nik' => ['required','unique:anggota,nik,'.$anggota->nik],
             'nik' => ['required'],
             'nama' => ['required'],
             'tempat_lahir' => ['required'],
@@ -145,6 +155,9 @@ class AnggotaController extends Controller
             'rt' => ['required'],
             'rw' => ['required'],
             'alamat' => ['required'],
+        ],[
+            // 'nik.unique' => 'NIK Anggota sudah pernah didaftarkan !',
+            'required' => ' :Tidak boleh kosong!'
         ]);
         // return $anggota;
         $anggota->update($validated);

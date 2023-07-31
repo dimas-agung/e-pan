@@ -32,6 +32,16 @@ Route::controller(App\Http\Controllers\AnggotaController::class)->group(function
     Route::delete('/anggota/{anggota}', 'destroy')->name('anggota.destroy');
     Route::get('/api/data_anggota', 'dataanggota')->name('anggota.data_anggota');
 });
+Route::controller(App\Http\Controllers\SaksiController::class)->group(function () {
+    Route::get('/saksi', 'index');
+    Route::get('/saksi/create', 'create');
+    Route::post('/saksi', 'store')->name('saksi.store');
+    Route::get('/saksi/{saksi}', 'show');
+    Route::get('/saksi/{saksi}/edit', 'edit');
+    Route::put('/saksi/{saksi}', 'update')->name('saksi.update');
+    Route::delete('/saksi/{saksi}', 'destroy')->name('saksi.destroy');
+    Route::get('/api/data_anggota', 'dataanggota')->name('saksi.data_anggota');
+});
 Route::prefix('/wilayah')->group(function () {
     Route::controller(App\Http\Controllers\ProvinsiController::class)->group(function () {
         Route::get('/provinsi', 'index')->name('provinsi.index');

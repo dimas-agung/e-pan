@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header">{{ __('Anggota') }}</div>
+                <div class="card-header">{{ __('Saksi') }}</div>
 
                 <div class="card-body">
                     @if (session('success'))
@@ -14,13 +14,13 @@
                         </div>
                     @endif
                     <div>
-                        <a href="{{ url('anggota/create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Anggota</a>
-                        <a href="{{ url('anggota/create') }}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                        <a href="{{ url('saksi/create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah saksi</a>
+                        <a href="{{ url('saksi/create') }}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
                     </div>
                     <br/>
                     
 
-                    <form action="{{url('anggota')}}" method="GET">
+                    <form action="{{url('saksi')}}" method="GET">
                     <div class="row">
                             <div class="col-6">
     
@@ -47,18 +47,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($anggota as $key=> $item)
+                                @forelse ($saksi as $key=> $item)
                                     <tr>
-                                        <td>{{ $anggota->firstItem() + $loop->index }}</td>
+                                        <td>{{ $saksi->firstItem() + $loop->index }}</td>
                                         <td>{{$item->nama}}</td>
                                         <td>{{$item->nik}}</td>
                                         <td>{{$item->provinsi}}</td>
                                         <td>{{$item->kabupaten}}</td>
                                         <td>{{$item->desa}}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-success" href="{{ url('anggota/'. $item->id.'/edit') }}">Edit</a>
+                                            <a class="btn btn-sm btn-success" href="{{ url('saksi/'. $item->id.'/edit') }}">Edit</a>
                             
-                                            <form style="display:inline-block" action="{{url('anggota/'. $item->id) }}" method="POST">
+                                            <form style="display:inline-block" action="{{url('saksi/'. $item->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"> Delete</button>
@@ -67,14 +67,14 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7">Data Anggota Kosong</td>
+                                        <td colspan="7">Data Saksi Kosong.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
-                        {{$anggota->links()}}
-                        <div>Showing {{($anggota->currentpage()-1)*$anggota->perpage()+1}} to {{$anggota->currentpage()*$anggota->perpage()}}
-                            of  {{$anggota->total()}} entries
+                        {{$saksi->links()}}
+                        <div>Showing {{($saksi->currentpage()-1)*$saksi->perpage()+1}} to {{$saksi->currentpage()*$saksi->perpage()}}
+                            of  {{$saksi->total()}} entries
                         </div>
                     </div>
                     
