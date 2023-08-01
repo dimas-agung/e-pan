@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Anggota;
 use App\Models\Kabupaten;
 use App\Models\Provinsi;
+use App\Models\Saksi;
+use App\Models\Tps;
 use Illuminate\Http\Request;
 
 class SaksiController extends Controller
@@ -41,16 +43,40 @@ class SaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        // $anggota = Anggota::query()->anggota()->latest()->paginate(10);
-        $provinsi = Provinsi::orderBy('provinsi')->get();
+        $anggota = Anggota::where('nik',$request->input('nik'))->first();
+        $tps = Tps::where('kecamatan',$anggota->kecamatan)->where('desa',$anggota->desa)->first();
+        $jumlah_tps = $tps->jumlah;
         return response()->view('admin.saksi.create', [
-            // 'anggota' => $anggota
-            'provinsi' => $provinsi
+           'anggota' => $anggota,
+           'jumlah_tps' => $jumlah_tps
         ]);
         //
         // return 123;
+    }
+    public function pilihAnggota(Request $request)
+    {
+        if ($request->input('search')) {
+           
+            $anggota = Anggota::query()->anggota()->with('saksi')->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        }else{
+            $anggota = Anggota::query()->anggota()->with('saksi')->latest()->paginate(10);
+
+        }
+        return response()->view('admin.saksi.pilih-anggota', [
+            'anggota' => $anggota,
+        ]);
+        //
+        // return 123;
+    }
+    public function cekTPSAvailable(Request $request){
+        $kecamatan = $request->input('kecamatan');
+        $desa = $request->input('desa');
+        $tps = $request->input('tps');
+        $tps = Saksi::where('kecamatan',$desa)->where('desa',$desa)->where('tps',$tps)->get();
+        return count($tps) < 5 ? true:false;
+         
     }
 
     /**
@@ -63,31 +89,17 @@ class SaksiController extends Controller
     {
         $validated = $request->validate([
             'nik' => ['required'],
-            'nama' => ['required'],
-            'tempat_lahir' => ['required'],
-            'tanggal_lahir' => ['required'],
-            'gender' => ['required'],
-            'agama' => ['required'],
-            'golongan_darah' => ['required'],
-            'status_perkawinan' => ['required'],
-            'pendidikan' => ['required'],
-            'institusi_pendidikan' => ['required'],
-            'pekerjaan' => ['required'],
-            'telpon' => ['required'],
-            'sayap_pan' => ['sometimes', 'nullable'],
+            // 'nama' => ['required'],
             'provinsi' => ['required'],
             'kabupaten' => ['required'],
             'kecamatan' => ['required'],
             'desa' => ['required'],
-            'rt' => ['required'],
-            'rw' => ['required'],
-            'alamat' => ['required'],
-
+            'tps' => ['required'],
         ]);
-        $anggota = Anggota::create($validated);
-        // return response()
-        //     ->json($anggota);
-        return redirect('anggota')->with('success', 'Data Anggota berhasil disimpan!');
+        $saksi = Saksi::create($validated);
+        $anggota = Anggota::where('nik',$request->input('nik'))->update(['is_saksi'=>1]);
+
+        return redirect('saksi')->with('success', 'Data Saksi berhasil disimpan!');
         
     }
 

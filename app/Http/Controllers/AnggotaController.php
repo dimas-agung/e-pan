@@ -100,9 +100,14 @@ class AnggotaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Anggota $anggota)
     {
         //
+        $provinsi = Provinsi::orderBy('provinsi')->get();
+        return response()->view('admin.anggota.edit', [
+            'anggota' => $anggota,
+            'provinsi' => $provinsi
+        ]);
     }
 
     /**

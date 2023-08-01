@@ -34,6 +34,8 @@ Route::controller(App\Http\Controllers\AnggotaController::class)->group(function
 });
 Route::controller(App\Http\Controllers\SaksiController::class)->group(function () {
     Route::get('/saksi', 'index');
+    Route::get('/saksi/pilih-anggota', 'pilihAnggota');
+    Route::get('/saksi/cek-kuota-tps', 'cekTPSAvailable');
     Route::get('/saksi/create', 'create');
     Route::post('/saksi', 'store')->name('saksi.store');
     Route::get('/saksi/{saksi}', 'show');
