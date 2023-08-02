@@ -56,12 +56,13 @@
                                         <td>{{$item->kabupaten}}</td>
                                         <td>{{$item->desa}}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-success" href="{{ url('anggota/'. $item->id.'/edit') }}">Edit</a>
+                                            <a class="btn btn-sm btn-info" href="{{ url('anggota/'. $item->id) }}"> <i class="fas fa-eye"></i></a>
+                                            <a class="btn btn-sm btn-success" href="{{ url('anggota/'. $item->id.'/edit') }}"><i class="fas fa-pen"></i></a>
                             
                                             <form style="display:inline-block" action="{{url('anggota/'. $item->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"> Delete</button>
+                                                <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"> <i class="fas fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>

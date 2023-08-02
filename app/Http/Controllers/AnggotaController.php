@@ -23,9 +23,9 @@ class AnggotaController extends Controller
     {
         if ($request->input('search')) {
            
-            $anggota = Anggota::query()->anggota()->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+            $anggota = Anggota::where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
         }else{
-            $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+            $anggota = Anggota::latest()->paginate(10);
 
         }
         // return $anggota;
@@ -43,7 +43,7 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        // $anggota = Anggota::query()->anggota()->latest()->paginate(10);
+        // $anggota = Anggota::latest()->paginate(10);
         $provinsi = Provinsi::orderBy('provinsi')->get();
         return response()->view('admin.anggota.create', [
             // 'anggota' => $anggota
@@ -104,7 +104,7 @@ class AnggotaController extends Controller
     {
         //
         $provinsi = Provinsi::orderBy('provinsi')->get();
-        return response()->view('admin.anggota.edit', [
+        return response()->view('admin.anggota.show', [
             'anggota' => $anggota,
             'provinsi' => $provinsi
         ]);

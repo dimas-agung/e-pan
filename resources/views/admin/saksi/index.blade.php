@@ -55,23 +55,24 @@
                                         <td>{{$item->nama}}</td>
                                         <td>{{$item->nik}}</td>
                                         <td>{{$item->provinsi}}</td>
-                                        <td>{{$item->Kecamatan}}</td>
                                         <td>{{$item->kabupaten}}</td>
+                                        <td>{{$item->kecamatan}}</td>
                                         <td>{{$item->desa}}</td>
                                         <td>{{$item->saksi->tps}}</td>
                                         <td>
-                                            <a class="btn btn-sm btn-success" href="{{ url('saksi/'. $item->id.'/edit') }}">Edit</a>
+                                            <a class="btn btn-sm btn-info" href="{{ url('anggota/'. $item->id) }}"> <i class="fas fa-eye"></i></a>
+                                            <a class="btn btn-sm btn-success" href="{{ url('saksi/'. $item->saksi->id.'/edit') }}"><i class="fas fa-pen"></i></a>
                             
                                             <form style="display:inline-block" action="{{url('saksi/'. $item->id) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"> Delete</button>
+                                                <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"><i class="fas fa-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7">Data Saksi Kosong.</td>
+                                        <td colspan="9">Data Saksi Kosong.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

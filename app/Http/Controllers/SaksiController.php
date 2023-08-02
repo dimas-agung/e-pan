@@ -120,13 +120,14 @@ class SaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Anggota $anggota)
+    public function edit(Saksi $saksi)
     {
-        //
-        $provinsi = Provinsi::orderBy('provinsi')->get();
+       
+        $tps = Tps::where('kecamatan',$saksi->kecamatan)->where('desa',$saksi->desa)->first();
+        $jumlah_tps = $tps->jumlah;
         return response()->view('admin.saksi.edit', [
-            'anggota' => $anggota,
-            'provinsi' => $provinsi
+            'saksi' => $saksi,
+            'jumlah_tps' => $jumlah_tps,
         ]);
 
     }
@@ -176,11 +177,12 @@ class SaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Anggota $anggota)
+    public function destroy(Saksi $saksi)
     {
         //
-        $anggota->delete();
-        return redirect('anggota')->with('success', 'Data Anggota has been deleted!');
+        $anggota = Anggota::where('nik',$saksi->nik)->update(['is_saksi'=>0]);
+        $saksi->delete();
+        return redirect('saksi')->with('success', 'Data Saksi has been deleted!');
     }
 
     public function dataAnggota(Request $request)
