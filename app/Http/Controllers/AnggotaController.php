@@ -87,8 +87,18 @@ class AnggotaController extends Controller
             'nik.unique' => 'NIK Anggota sudah pernah didaftarkan !',
             'required' => ' :Tidak boleh kosong!'
         ]);
+    //    return $request->file('img_ktp');
+        $img_ktp = $request->file('img_ktp');
+        $img_c1 = $request->file('img_c1');
+        $path_ktp = 'ktp';
+        $path_c1 = 'c1';
+        $img_ktp->storePubliclyAs($path_ktp, $request->nik.'_ktp.png', "public");
+        $img_c1->storePubliclyAs($path_c1, $request->nik.'_c1.png', "public");
+        $url_ktp = $path_ktp . '/' .  $request->nik.'_ktp.png';
+        $url_c1 = $path_c1 . '/' .  $request->nik.'_c1.png';
         $anggota = Anggota::create($validated);
         // return response()
+        $anggota->update(['url_ktp'=>$url_ktp,'url_c1' => $url_c1]);
         //     ->json($anggota);
         return redirect('anggota')->with('success', 'Data Anggota berhasil disimpan!');
         

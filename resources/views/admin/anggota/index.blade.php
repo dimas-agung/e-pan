@@ -38,6 +38,7 @@
                             <thead>
                                 <tr>
                                     <td>No</td>
+                                    {{-- <td>Foto</td> --}}
                                     <td>Nama</td>
                                     <td>NIK</td>
                                     <td>Provinsi</td>
@@ -50,6 +51,7 @@
                                 @forelse ($anggota as $key=> $item)
                                     <tr>
                                         <td>{{ $anggota->firstItem() + $loop->index }}</td>
+                                        {{-- <td><img width="100" height="100" src="{{asset('storage/'.$item->url_ktp)}}" alt=""></td> --}}
                                         <td>{{$item->nama}}</td>
                                         <td>{{$item->nik}}</td>
                                         <td>{{$item->provinsi}}</td>

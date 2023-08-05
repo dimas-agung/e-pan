@@ -17,6 +17,32 @@
             height: 100%;
             display: none;
         }
+        .image-preview-container img {
+    width: 100%;
+    display: none;
+    margin-bottom: 30px;
+}
+.image-preview-container input {
+    display: none;
+}
+
+.image-preview-container label {
+    display: block;
+    width: 45%;
+    height: 45px;
+    margin-left: 25%;
+    text-align: center;
+    background: #8338ec;
+    color: #fff;
+    font-size: 15px;
+    text-transform: Uppercase;
+    font-weight: 400;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
     </style>
     <div class="container-fluid">
         <div class="section-body">
@@ -38,7 +64,7 @@
                         <div class="card-header">{{ __('Tambah Anggota') }}</div>
 
                         <div class="card-body" style="font-size: 14px;">
-                            <form method="POST" action="{{ route('anggota.store') }}">
+                            <form method="POST" action="{{ route('anggota.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div id="data-diri">
                                     <h5>Data Diri</h5>
@@ -296,24 +322,32 @@
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div id="data-foto">
+                                <div id="data-foto">
                                     <h5>Data Foto</h5>
         
                                     <div class="row">
+                                        
                                         <div class="col-lg-6">
-                                            <div class="form-group">
-        
-                                                <label>Foto Diri</label>
-                                                <div id="drop-zone">
-                                                    <img src="" alt="">
-        
-                                                    <p><i class="fas fa-camera"></i> Klik / Drop untuk upload Gambar</p>
-                                                    <input type="file" id="myfile" hidden>
+                                            <div class="image-preview-container">
+                                                <div class="preview">
+                                                    <img id="preview-image-ktp" src="{{asset('storage/noimage.png')}}"  alt="Image" />
                                                 </div>
+                                                <label for="file-upload">Upload Foro KTP</label>
+                                                <input type="file" id="file-upload" name="img_ktp" accept="image/*" onchange="previewImageKTP(event);" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="image-preview-container">
+                                                <div class="preview">
+                                                    <img id="preview-image-c1" src="{{url('/img/noimage.png')}}" />
+                                                </div>
+                                                <label for="foto-c1">Upload Foto C1</label>
+                                                <input type="file" id="foto-c1" name="img_c1" accept="image/*" onchange="previewImageC1(event);" />
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
+                                <br>
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-9">
                                         <button type="submit" class="btn btn-primary">
@@ -352,45 +386,68 @@
         });
     </script>
     <script>
-        const dropZone = document.querySelector('#drop-zone');
-        const inputElement = document.querySelector('input');
-        const img = document.querySelector('img');
-        let p = document.querySelector('p')
-
-        inputElement.addEventListener('change', function(e) {
-            const clickFile = this.files[0];
-            if (clickFile) {
-                img.style = "display:block;";
-                p.style = 'display: none';
-                const reader = new FileReader();
-                reader.readAsDataURL(clickFile);
-                reader.onloadend = function() {
-                    const result = reader.result;
-                    let src = this.result;
-                    img.src = src;
-                    img.alt = clickFile.name
-                }
+        const previewImageKTP = (event) => {
+            /**
+             * Get the selected files.
+             */
+            const imageFiles = event.target.files;
+            /**
+             * Count the number of files selected.
+             */
+            const imageFilesLength = imageFiles.length;
+            /**
+             * If at least one image is selected, then proceed to display the preview.
+             */
+            if (imageFilesLength > 0) {
+                /**
+                 * Get the image path.
+                 */
+                const imageSrc = URL.createObjectURL(imageFiles[0]);
+                /**
+                 * Select the image preview element.
+                 */
+                const imagePreviewElement = document.querySelector("#preview-image-ktp");
+                /**
+                 * Assign the path to the image preview element.
+                 */
+                imagePreviewElement.src = imageSrc;
+                /**
+                 * Show the element by changing the display value to "block".
+                 */
+                imagePreviewElement.style.display = "block";
             }
-        })
-        dropZone.addEventListener('click', () => inputElement.click());
-        dropZone.addEventListener('dragover', (e) => {
-            e.preventDefault();
-        });
-        dropZone.addEventListener('drop', (e) => {
-            e.preventDefault();
-            img.style = "display:block;";
-            let file = e.dataTransfer.files[0];
-
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = function() {
-                e.preventDefault()
-                p.style = 'display: none';
-                let src = this.result;
-                img.src = src;
-                img.alt = file.name
+        };
+        const previewImageC1 = (event) => {
+            /**
+             * Get the selected files.
+             */
+            const imageFiles = event.target.files;
+            /**
+             * Count the number of files selected.
+             */
+            const imageFilesLength = imageFiles.length;
+            /**
+             * If at least one image is selected, then proceed to display the preview.
+             */
+            if (imageFilesLength > 0) {
+                /**
+                 * Get the image path.
+                 */
+                const imageSrc = URL.createObjectURL(imageFiles[0]);
+                /**
+                 * Select the image preview element.
+                 */
+                const imagePreviewElement = document.querySelector("#preview-image-c1");
+                /**
+                 * Assign the path to the image preview element.
+                 */
+                imagePreviewElement.src = imageSrc;
+                /**
+                 * Show the element by changing the display value to "block".
+                 */
+                imagePreviewElement.style.display = "block";
             }
-        });
+        };
     </script>
     <script>
         function getKabupaten() {

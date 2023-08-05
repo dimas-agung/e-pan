@@ -302,24 +302,28 @@ img {
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div id="data-foto">
+                            <div id="data-foto">
                                     <h5>Data Foto</h5>
-        
+                                    {{-- {{asset('storage/'.$anggota->url_ktp)}} --}}
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
         
-                                                <label>Foto Diri</label>
-                                                <div id="drop-zone">
-                                                    <img src="" alt="">
+                                                <label>Foto KTP</label>
+                                                <img width="100" height="100" src="{{asset('storage/'.$anggota->url_ktp)}}" alt="">
+                                               
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
         
-                                                    <p><i class="fas fa-camera"></i> Klik / Drop untuk upload Gambar</p>
-                                                    <input readonly type="file" id="myfile" hidden>
-                                                </div>
+                                                <label>Foto C1</label>
+                                                <img width="100" height="100" src="{{asset('storage/'.$anggota->url_c1)}}" alt="">
+                                               
                                             </div>
                                         </div>
                                     </div>
-                                </div> --}}
+                                </div>
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-9">
                                     <a class="btn btn-warning" onclick="window.history.back()">
