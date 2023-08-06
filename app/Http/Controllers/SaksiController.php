@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SaksiExport;
 use App\Models\Anggota;
 use App\Models\Kabupaten;
 use App\Models\Provinsi;
 use App\Models\Saksi;
 use App\Models\Tps;
 use Illuminate\Http\Request;
+
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class SaksiController extends Controller
 {
@@ -196,4 +200,15 @@ class SaksiController extends Controller
         return response()
             ->json($anggotas);
     }
+
+    public function export_excel(Request $request)
+	{
+        // return Anggota::query()->saksi()->with('saksi')->orderBy('nama')->get();
+        $desa = $request->input('desa')== '' ? null : $request->input('desa');
+        $kecamatan = $request->input('kecamatan') == '' ? null : $request->input('kecamatan');
+        // return $kecamatan;
+        $exportSaksi = new SaksiExport($kecamatan,$desa);
+        // return $exportAnggota;
+		return Excel::download($exportSaksi, 'dataSaksi.xlsx');
+	}
 }

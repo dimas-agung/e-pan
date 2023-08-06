@@ -15,7 +15,7 @@
                     @endif
                     <div>
                         <a href="{{ url('saksi/pilih-anggota') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah saksi</a>
-                        <a href="{{ url('saksi/create') }}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                        <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
                     </div>
                     <br/>
                     
@@ -88,6 +88,51 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalExport" tabindex="-1"  aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Export Saksi</h5>
+          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="GET" action="{{ route('saksi.export_excel') }}" enctype="multipart/form-data">
+            <div class="modal-body">
+                @csrf
+                <div id="data-alamat">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Kecamatan</label>
+                            <select name="kecamatan_id" id="kecamatan_id" class="form-control"  onchange="getDesa()">
+                                <option value=""> -- Pilih Kecamatan--</option>
+                            </select>
+                            <input type="hidden" name="kecamatan" id="kecamatan" class="form-control"
+                                 />
+                        </div>
+
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Desa/Keluarahan</label>
+                            <select name="desa_id" id="desa_id" class="form-control"  onchange="getDesaName()">
+                                <option value=""> -- Pilih Desa/Keluarahan --</option>
+                            </select>
+                            <input type="hidden" name="desa" id="desa" class="form-control"
+                                 />
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <a  class="btn btn-secondary" data-dismiss="modal">Close</a>
+                <button type="submit" class="btn btn-primary">Export</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 @endsection
 
 @section('js')
@@ -105,5 +150,80 @@
 
     // $('table').DataTable({});
   });
+</script>
+<script>
+    function modalExport() {
+        getKecamatan()
+      $('#modalExport').modal('show')
+      
+    }
+    function getKecamatan() {
+            let kabupaten_id = 3517;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kabupaten.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    $('#kabupaten').val(response.kabupaten)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#kecamatan_id')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Kecamatan --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#kecamatan_id').append(
+                            `<option value="${this.id}">${this.kecamatan}</option>`);
+
+                    });
+
+                }
+            })
+        }
+        function getDesa() {
+            let kecamatan_id = $('#kecamatan_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    $('#kecamatan').val(response.kecamatan)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#desa_id')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Desa --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#desa_id').append(
+                            `<option value="${this.id}">${this.desa}</option>`);
+
+                    });
+
+                }
+            })
+        }
 </script>
 @endsection

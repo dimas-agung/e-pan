@@ -333,7 +333,7 @@
                                                     <img id="preview-image-ktp" src="{{asset('storage/noimage.png')}}"  alt="Image" />
                                                 </div>
                                                 <label for="file-upload">Upload Foro KTP</label>
-                                                <input type="file" id="file-upload" name="img_ktp" accept="image/*" onchange="previewImageKTP(event);" />
+                                                <input type="file" required id="file-upload" name="img_ktp" accept="image/*" onchange="previewImageKTP(event);" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -342,7 +342,7 @@
                                                     <img id="preview-image-c1" src="{{url('/img/noimage.png')}}" />
                                                 </div>
                                                 <label for="foto-c1">Upload Foto C1</label>
-                                                <input type="file" id="foto-c1" name="img_c1" accept="image/*" onchange="previewImageC1(event);" />
+                                                <input type="file" required id="foto-c1" name="img_c1" accept="image/*" onchange="previewImageC1(event);" />
                                             </div>
                                         </div>
                                     </div>

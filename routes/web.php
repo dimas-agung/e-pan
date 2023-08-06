@@ -30,6 +30,7 @@ Route::controller(App\Http\Controllers\AnggotaController::class)->group(function
     Route::get('/anggota/{anggota}/edit', 'edit');
     Route::put('/anggota/{anggota}', 'update')->name('anggota.update');
     Route::delete('/anggota/{anggota}', 'destroy')->name('anggota.destroy');
+    Route::get('/export/anggota', 'export_excel')->name('anggota.export_excel');
     Route::get('/api/data_anggota', 'dataanggota')->name('anggota.data_anggota');
 });
 Route::controller(App\Http\Controllers\SaksiController::class)->group(function () {
@@ -43,6 +44,7 @@ Route::controller(App\Http\Controllers\SaksiController::class)->group(function (
     Route::put('/saksi/{saksi}', 'update')->name('saksi.update');
     Route::delete('/saksi/{saksi}', 'destroy')->name('saksi.destroy');
     Route::get('/api/data_anggota', 'dataanggota')->name('saksi.data_anggota');
+    Route::get('/export/saksi', 'export_excel')->name('saksi.export_excel');
 });
 Route::prefix('/wilayah')->group(function () {
     Route::controller(App\Http\Controllers\ProvinsiController::class)->group(function () {

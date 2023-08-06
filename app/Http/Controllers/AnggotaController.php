@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AnggotaExport;
 use App\Models\Anggota;
 use App\Models\Kabupaten;
 use App\Models\Provinsi;
 use Illuminate\Http\Request;
+
+use Maatwebsite\Excel\Facades\Excel;
 
 class AnggotaController extends Controller
 {
@@ -82,6 +85,8 @@ class AnggotaController extends Controller
             'rt' => ['required'],
             'rw' => ['required'],
             'alamat' => ['required'],
+            'img_ktp' => ['required'],
+            'img_c1' => ['required'],
 
         ],[
             'nik.unique' => 'NIK Anggota sudah pernah didaftarkan !',
@@ -204,4 +209,12 @@ class AnggotaController extends Controller
         return response()
             ->json($anggotas);
     }
+    public function export_excel(Request $request)
+	{
+        $desa = $request->input('desa')== '' ? null : $request->input('desa');
+        $kecamatan = $request->input('kecamatan') == '' ? null : $request->input('kecamatan');
+        $exportAnggota = new AnggotaExport($kecamatan,$desa);
+        // return $exportAnggota;
+		return Excel::download($exportAnggota, 'dataAnggota.xlsx');
+	}
 }
