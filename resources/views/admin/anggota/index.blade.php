@@ -6,7 +6,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">{{ __('Anggota') }}</div>
-
                     <div class="card-body">
                         @if (session('success'))
                             <div class="alert alert-success" role="alert">
@@ -16,27 +15,27 @@
                         <div>
                             <a href="{{ url('anggota/create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah
                                 Anggota</a>
-
                             <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
                         </div>
                         <br />
 
-
                         <form action="{{ url('anggota') }}" method="GET">
                             <div class="row">
-                                <div class="col-6">
-
+                                <div class="col-5">
                                     <input type="search" name="search" class="form-control"
                                         placeholder="Masukkan NIK atau Nama.." autofocus>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <button class="btn btn-info"><i class="fas fa-search"></i> Search</button>
+                                </div>
+                                <div class="col-1">
+                                    <a onclick="modalFilter()" class="btn btn-primary" title="Filter"><i
+                                            class="fas fa-filter"></i> </a>
                                 </div>
                             </div>
                         </form>
                         <br>
                         <div class="table-responsive">
-
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -90,13 +89,11 @@
                                 of {{ $anggota->total() }} entries
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <!-- Modal -->
     <div class="modal fade" id="modalExport" tabindex="-1" aria-hidden="true">
@@ -118,7 +115,6 @@
                                     </select>
                                     <input type="hidden" name="kecamatan" id="kecamatan" class="form-control" />
                                 </div>
-
                             </div>
                             <div class="col-12">
                                 <div class="form-group">
@@ -128,15 +124,54 @@
                                     </select>
                                     <input type="hidden" name="desa" id="desa" class="form-control" />
                                 </div>
-
                             </div>
-
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <a class="btn btn-secondary" data-dismiss="modal">Close</a>
                         <button type="submit" class="btn btn-primary">Export</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="modalFilter" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Filter Anggota</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="GET" action="{{ url('anggota') }}" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        {{-- @csrf --}}
+                        <div id="data-alamat">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Kecamatan</label>
+                                    <select name="kecamatan_id2" id="kecamatan_id2" class="form-control"
+                                        onchange="getDesa2()">
+                                        <option value=""> -- Pilih Kecamatan--</option>
+                                    </select>
+                                    <input type="hidden" name="kecamatan" id="kecamatan2" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Desa/Keluarahan</label>
+                                    <select name="desa_id2" id="desa_id2" class="form-control"
+                                        onchange="getDesaName2()">
+                                        <option value=""> -- Pilih Desa/Keluarahan --</option>
+                                    </select>
+                                    <input type="hidden" name="desa" id="desa2" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-primary">Filter</button>
                     </div>
                 </form>
             </div>
@@ -165,6 +200,12 @@
         function modalExport() {
             getKecamatan()
             $('#modalExport').modal('show')
+
+        }
+
+        function modalFilter() {
+            getKecamatan2()
+            $('#modalFilter').modal('show')
 
         }
 
@@ -234,6 +275,108 @@
 
                     });
 
+                }
+            })
+        }
+
+        function getDesaName() {
+            let desa_id = $('#desa_id').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    desa_id: desa_id
+                },
+                success: function(response) {
+                    $('#desa').val(response.desa)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+        }
+
+        function getKecamatan2() {
+            let kabupaten_id = 3517;
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kabupaten.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    $('#kabupaten').val(response.kabupaten)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#kecamatan_id2')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Kecamatan --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kabupaten_id: kabupaten_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#kecamatan_id2').append(
+                            `<option value="${this.id}">${this.kecamatan}</option>`);
+
+                    });
+
+                }
+            })
+        }
+
+
+
+        function getDesa2() {
+            let kecamatan_id = $('#kecamatan_id2').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('kecamatan.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    $('#kecamatan2').val(response.kecamatan)
+                    // console.log($('#kabupaten').val());
+                }
+            })
+            $('#desa_id2')
+                .empty()
+                .append('<option selected="selected" value="">-- Pilih Desa --</option>');
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    kecamatan_id: kecamatan_id
+                },
+                success: function(response) {
+                    let no = 1;
+                    let data = [];
+                    $.each(response, function() {
+                        $('#desa_id2').append(
+                            `<option value="${this.id}">${this.desa}</option>`);
+
+                    });
+
+                }
+            })
+        }
+
+        function getDesaName2() {
+            let desa_id = $('#desa_id2').val()
+            $.ajax({
+                type: "GET",
+                url: "{{ route('desa.index') }}",
+                data: {
+                    desa_id: desa_id
+                },
+                success: function(response) {
+                    $('#desa2').val(response.desa)
+                    // console.log($('#kabupaten').val());
                 }
             })
         }
