@@ -1,166 +1,174 @@
 @extends('layouts.default')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">{{ __('Anggota') }}</div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">{{ __('Anggota') }}</div>
 
-                <div class="card-body">
-                    @if (session('success'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    <div>
-                        <a href="{{ url('anggota/create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah Anggota</a>
-
-                        <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
-                    </div>
-                    <br/>
-                    
-
-                    <form action="{{url('anggota')}}" method="GET">
-                    <div class="row">
-                            <div class="col-6">
-    
-                                <input type="search" name="search" class="form-control" placeholder="Masukkan NIK atau Nama.." autofocus>                                 
+                    <div class="card-body">
+                        @if (session('success'))
+                            <div class="alert alert-success" role="alert">
+                                {{ session('success') }}
                             </div>
-                            <div class="col-3">
-                                <button class="btn btn-info"><i class="fas fa-search"></i> Search</button>
+                        @endif
+                        <div>
+                            <a href="{{ url('anggota/create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah
+                                Anggota</a>
+
+                            <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                        </div>
+                        <br />
+
+
+                        <form action="{{ url('anggota') }}" method="GET">
+                            <div class="row">
+                                <div class="col-6">
+
+                                    <input type="search" name="search" class="form-control"
+                                        placeholder="Masukkan NIK atau Nama.." autofocus>
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-info"><i class="fas fa-search"></i> Search</button>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <div class="table-responsive">
+
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <td>No</td>
+                                        {{-- <td>Foto</td> --}}
+                                        <td>Nama</td>
+                                        <td>NIK</td>
+                                        <td>Provinsi</td>
+                                        <td>Kecamatan</td>
+                                        <td>Desa/Kelurahan</td>
+                                        <td>Aksi</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($anggota as $key=> $item)
+                                        <tr>
+                                            <td>{{ $anggota->firstItem() + $loop->index }}</td>
+                                            {{-- <td><img width="100" height="100" src="{{asset('storage/'.$item->url_ktp)}}" alt=""></td> --}}
+                                            <td>{{ $item->nama }}</td>
+                                            <td>{{ $item->nik }}</td>
+                                            <td>{{ $item->provinsi }}</td>
+                                            <td>{{ $item->kabupaten }}</td>
+                                            <td>{{ $item->desa }}</td>
+                                            <td>
+                                                <a class="btn btn-sm btn-info" href="{{ url('anggota/' . $item->id) }}"> <i
+                                                        class="fas fa-eye"></i></a>
+                                                <a class="btn btn-sm btn-success"
+                                                    href="{{ url('anggota/' . $item->id . '/edit') }}"><i
+                                                        class="fas fa-pen"></i></a>
+
+                                                <form style="display:inline-block"
+                                                    action="{{ url('anggota/' . $item->id) }}" method="POST">
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-danger"
+                                                        onclick="confirm('Want to delete?')"> <i
+                                                            class="fas fa-trash"></i></button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="7">Data Anggota Kosong</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                            {{ $anggota->links() }}
+                            <div>Showing {{ ($anggota->currentpage() - 1) * $anggota->perpage() + 1 }} to
+                                {{ $anggota->currentpage() * $anggota->perpage() }}
+                                of {{ $anggota->total() }} entries
                             </div>
                         </div>
-                    </form>
-                    <br>
-                    <div class="table-responsive">
 
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <td>No</td>
-                                    {{-- <td>Foto</td> --}}
-                                    <td>Nama</td>
-                                    <td>NIK</td>
-                                    <td>Provinsi</td>
-                                    <td>Kecamatan</td>
-                                    <td>Desa/Kelurahan</td>
-                                    <td>Aksi</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse ($anggota as $key=> $item)
-                                    <tr>
-                                        <td>{{ $anggota->firstItem() + $loop->index }}</td>
-                                        {{-- <td><img width="100" height="100" src="{{asset('storage/'.$item->url_ktp)}}" alt=""></td> --}}
-                                        <td>{{$item->nama}}</td>
-                                        <td>{{$item->nik}}</td>
-                                        <td>{{$item->provinsi}}</td>
-                                        <td>{{$item->kabupaten}}</td>
-                                        <td>{{$item->desa}}</td>
-                                        <td>
-                                            <a class="btn btn-sm btn-info" href="{{ url('anggota/'. $item->id) }}"> <i class="fas fa-eye"></i></a>
-                                            <a class="btn btn-sm btn-success" href="{{ url('anggota/'. $item->id.'/edit') }}"><i class="fas fa-pen"></i></a>
-                            
-                                            <form style="display:inline-block" action="{{url('anggota/'. $item->id) }}" method="POST">
-                                                @method('DELETE')
-                                                @csrf
-                                                <button class="btn btn-sm btn-danger" onclick="confirm('Want to delete?')"> <i class="fas fa-trash"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7">Data Anggota Kosong</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                        {{$anggota->links()}}
-                        <div>Showing {{($anggota->currentpage()-1)*$anggota->perpage()+1}} to {{$anggota->currentpage()*$anggota->perpage()}}
-                            of  {{$anggota->total()}} entries
-                        </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-  
-  <!-- Modal -->
-  <div class="modal fade" id="modalExport" tabindex="-1"  aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Export Anggota</h5>
-          <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form method="GET" action="{{ route('anggota.export_excel') }}" enctype="multipart/form-data">
-            <div class="modal-body">
-                @csrf
-                <div id="data-alamat">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Kecamatan</label>
-                            <select name="kecamatan_id" id="kecamatan_id" class="form-control"  onchange="getDesa()">
-                                <option value=""> -- Pilih Kecamatan--</option>
-                            </select>
-                            <input type="hidden" name="kecamatan" id="kecamatan" class="form-control"
-                                 />
-                        </div>
 
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Desa/Keluarahan</label>
-                            <select name="desa_id" id="desa_id" class="form-control"  onchange="getDesaName()">
-                                <option value=""> -- Pilih Desa/Keluarahan --</option>
-                            </select>
-                            <input type="hidden" name="desa" id="desa" class="form-control"
-                                 />
-                        </div>
-
-                    </div>
-                    
+    <!-- Modal -->
+    <div class="modal fade" id="modalExport" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Export Anggota</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form method="GET" action="{{ route('anggota.export_excel') }}" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        @csrf
+                        <div id="data-alamat">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Kecamatan</label>
+                                    <select name="kecamatan_id" id="kecamatan_id" class="form-control" onchange="getDesa()">
+                                        <option value=""> -- Pilih Kecamatan--</option>
+                                    </select>
+                                    <input type="hidden" name="kecamatan" id="kecamatan" class="form-control" />
+                                </div>
 
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label>Desa/Keluarahan</label>
+                                    <select name="desa_id" id="desa_id" class="form-control" onchange="getDesaName()">
+                                        <option value=""> -- Pilih Desa/Keluarahan --</option>
+                                    </select>
+                                    <input type="hidden" name="desa" id="desa" class="form-control" />
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-secondary" data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-primary">Export</button>
+                    </div>
+                </form>
             </div>
-            <div class="modal-footer">
-                <a  class="btn btn-secondary" data-dismiss="modal">Close</a>
-                <button type="submit" class="btn btn-primary">Export</button>
-            </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 @endsection
 
 @section('js')
-{{-- // @if ($message = Session::get('success'))
+    {{-- // @if ($message = Session::get('success'))
 //     iziToast.success({
 //     title: 'Sukses!',
 //     message: '{{ $message }}',
 //     position: 'topRight'
 //   });
 // @endif --}}
-{{-- <script src="{{ asset('dashboard/js/datatable-1.10.20.min.js') }}"></script>
+    {{-- <script src="{{ asset('dashboard/js/datatable-1.10.20.min.js') }}"></script>
 <script src="{{ asset('dashboard/js/jquery.maskMoney.min.js') }}"></script> --}}
-<script>
-  $(document).ready(function () {
-    // modalExport()
-    // $('table').DataTable({});
-    
-  });
-</script>
-<script>
-    function modalExport() {
-        getKecamatan()
-      $('#modalExport').modal('show')
-      
-    }
-    function getKecamatan() {
+    <script>
+        $(document).ready(function() {
+            // modalExport()
+            // $('table').DataTable({});
+
+        });
+    </script>
+    <script>
+        function modalExport() {
+            getKecamatan()
+            $('#modalExport').modal('show')
+
+        }
+
+        function getKecamatan() {
             let kabupaten_id = 3517;
             $.ajax({
                 type: "GET",
@@ -194,6 +202,7 @@
                 }
             })
         }
+
         function getDesa() {
             let kecamatan_id = $('#kecamatan_id').val()
             $.ajax({
@@ -228,5 +237,5 @@
                 }
             })
         }
-</script>
+    </script>
 @endsection
