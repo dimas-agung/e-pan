@@ -4,8 +4,18 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" style="color:white" href="#">
+                {{-- <div class="sidebar-brand-icon rotate-n-15">
+                    <i class="fas fa-laugh-wink"></i>
+                </div> --}}
+                {{-- <img src="{{asset('img/logo.png')}}" alt=""> --}}
+                <br>
+                <div class="sidebar-brand-text mx-3"><h1>SISTEM INFORMASI {{ config('app.name', 'Laravel') }}</h1></div>
+
+            </a>
+
+            <div class="card mt-3">
+                <div class="card-header d-flex align-items-center justify-content-center">{{ __('LOGIN') }}</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

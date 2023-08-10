@@ -45,7 +45,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/')}}">
                 {{-- <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div> --}}
@@ -87,6 +87,18 @@
                             href="{{ url('anggota') }}">Anggota</a>
                         
                     </div>
+                   
+                </div>
+            </li>
+            <li class="nav-item {{ request()->is('saksi') ? 'active' : '' }}">
+                <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#nav-saksi"
+                    aria-expanded="true" aria-controls="nav-saksi">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Data Saksi</span>
+                </a>
+                <div id="nav-saksi"
+                    class="collapse"
+                    aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header ">Data Saksi</h6>
                         <a class="collapse-item "
@@ -95,7 +107,7 @@
                     </div>
                 </div>
             </li>
-            <li class="nav-item {{ request()->is('tps') ? 'active' : '' }}">
+            {{-- <li class="nav-item {{ request()->is('tps') ? 'active' : '' }}">
                 <a class="nav-link collapsed " href="#" data-toggle="collapse" data-target="#nav-tps"
                     aria-expanded="true" aria-controls="nav-tps">
                     <i class="fas fa-fw fa-cog"></i>
@@ -111,7 +123,7 @@
                         
                     </div>
                 </div>
-            </li>
+            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider">
