@@ -91,11 +91,11 @@ class SaksiController extends Controller
     {
         $validated = $request->validate([
             'nik' => ['required'],
-            // 'nama' => ['required'],
-            // 'provinsi' => ['required'],
-            // 'kabupaten' => ['required'],
-            // 'kecamatan' => ['required'],
-            // 'desa' => ['required'],
+            'nama' => ['required'],
+            'provinsi' => ['required'],
+            'kabupaten' => ['required'],
+            'kecamatan' => ['required'],
+            'desa' => ['required'],
             'tps' => ['required'],
         ]);
         $img_c1 = $request->file('img_c1');
