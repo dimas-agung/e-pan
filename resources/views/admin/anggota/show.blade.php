@@ -158,15 +158,9 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label>Pendidikan Terakhir</label>
-                                            <select disabled name="pendidikan" id="pendidikan" class="form-control"
-                                                required>
-                                                <option value=""> -- Pilih Pendidikan Terakhir --</option>
-                                                <option value="SD" @selected($anggota->pendidikan == 'SD')>SD</option>
-                                                <option value="SMP" @selected($anggota->pendidikan == 'SD')>SMP</option>
-                                                <option value="SMA" @selected($anggota->pendidikan == 'SD')>SMA</option>
-                                                <option value="Perguruan Tinggi" @selected($anggota->pendidikan == 'Perguruan Tinggi')>
-                                                    Perguruan Tinggi</option>
-                                            </select>
+                                            <input readonly type="text" name="institusi_pendidikan"
+                                                id="institusi_pendidikan" class="form-control" required
+                                                value="{{ $anggota->pendidikan }}" />
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
