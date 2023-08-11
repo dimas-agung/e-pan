@@ -28,11 +28,10 @@ class SaksiController extends Controller
     public function index(Request $request)
     {
         if ($request->input('search')) {
-           
-            $saksi = Anggota::query()->saksi()->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
-        }else{
-            $saksi = Anggota::query()->saksi()->latest()->paginate(10);
 
+            $saksi = Anggota::query()->saksi()->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        } else {
+            $saksi = Anggota::query()->saksi()->latest()->paginate(10);
         }
         // return $anggota;
         $provinsi = Provinsi::orderBy('provinsi')->get();
@@ -49,12 +48,12 @@ class SaksiController extends Controller
      */
     public function create(Request $request)
     {
-        $anggota = Anggota::where('nik',$request->input('nik'))->first();
-        $tps = Tps::where('kecamatan',$anggota->kecamatan)->where('desa',$anggota->desa)->first();
+        $anggota = Anggota::where('nik', $request->input('nik'))->first();
+        $tps = Tps::where('kecamatan', $anggota->kecamatan)->where('desa', $anggota->desa)->first();
         $jumlah_tps = $tps->jumlah;
         return response()->view('admin.saksi.create', [
-           'anggota' => $anggota,
-           'jumlah_tps' => $jumlah_tps
+            'anggota' => $anggota,
+            'jumlah_tps' => $jumlah_tps
         ]);
         //
         // return 123;
@@ -62,11 +61,10 @@ class SaksiController extends Controller
     public function pilihAnggota(Request $request)
     {
         if ($request->input('search')) {
-           
-            $anggota = Anggota::query()->anggota()->with('saksi')->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
-        }else{
-            $anggota = Anggota::query()->anggota()->with('saksi')->latest()->paginate(10);
 
+            $anggota = Anggota::query()->anggota()->with('saksi')->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        } else {
+            $anggota = Anggota::query()->anggota()->with('saksi')->latest()->paginate(10);
         }
         return response()->view('admin.saksi.pilih-anggota', [
             'anggota' => $anggota,
@@ -74,13 +72,13 @@ class SaksiController extends Controller
         //
         // return 123;
     }
-    public function cekTPSAvailable(Request $request){
+    public function cekTPSAvailable(Request $request)
+    {
         $kecamatan = $request->input('kecamatan');
         $desa = $request->input('desa');
         $tps = $request->input('tps');
-        $tps = Saksi::where('kecamatan',$desa)->where('desa',$desa)->where('tps',$tps)->get();
-        return count($tps) < 5 ? true:false;
-         
+        $tps = Saksi::where('kecamatan', $desa)->where('desa', $desa)->where('tps', $tps)->get();
+        return count($tps) < 5 ? true : false;
     }
 
     /**
@@ -94,17 +92,22 @@ class SaksiController extends Controller
         $validated = $request->validate([
             'nik' => ['required'],
             // 'nama' => ['required'],
-            'provinsi' => ['required'],
-            'kabupaten' => ['required'],
-            'kecamatan' => ['required'],
-            'desa' => ['required'],
+            // 'provinsi' => ['required'],
+            // 'kabupaten' => ['required'],
+            // 'kecamatan' => ['required'],
+            // 'desa' => ['required'],
             'tps' => ['required'],
         ]);
+        $img_c1 = $request->file('img_c1');
+        $path_c1 = 'c1';
+        $img_c1->storePubliclyAs($path_c1, $request->nik . '_c1.png', "public");
+        $url_c1 = $path_c1 . '/' .  $request->nik . '_c1.png';
+
         $saksi = Saksi::create($validated);
-        $anggota = Anggota::where('nik',$request->input('nik'))->update(['is_saksi'=>1]);
+
+        $anggota = Anggota::where('nik', $request->input('nik'))->update(['is_saksi' => 1, 'url_c1' => $url_c1]);
 
         return redirect('saksi')->with('success', 'Data Saksi berhasil disimpan!');
-        
     }
 
     /**
@@ -126,14 +129,13 @@ class SaksiController extends Controller
      */
     public function edit(Saksi $saksi)
     {
-       
-        $tps = Tps::where('kecamatan',$saksi->kecamatan)->where('desa',$saksi->desa)->first();
+
+        $tps = Tps::where('kecamatan', $saksi->kecamatan)->where('desa', $saksi->desa)->first();
         $jumlah_tps = $tps->jumlah;
         return response()->view('admin.saksi.edit', [
             'saksi' => $saksi,
             'jumlah_tps' => $jumlah_tps,
         ]);
-
     }
 
     /**
@@ -184,7 +186,7 @@ class SaksiController extends Controller
     public function destroy(Saksi $saksi)
     {
         //
-        $anggota = Anggota::where('nik',$saksi->nik)->update(['is_saksi'=>0]);
+        $anggota = Anggota::where('nik', $saksi->nik)->update(['is_saksi' => 0]);
         $saksi->delete();
         return redirect('saksi')->with('success', 'Data Saksi has been deleted!');
     }
@@ -202,13 +204,13 @@ class SaksiController extends Controller
     }
 
     public function export_excel(Request $request)
-	{
+    {
         // return Anggota::query()->saksi()->with('saksi')->orderBy('nama')->get();
-        $desa = $request->input('desa')== '' ? null : $request->input('desa');
+        $desa = $request->input('desa') == '' ? null : $request->input('desa');
         $kecamatan = $request->input('kecamatan') == '' ? null : $request->input('kecamatan');
         // return $kecamatan;
-        $exportSaksi = new SaksiExport($kecamatan,$desa);
+        $exportSaksi = new SaksiExport($kecamatan, $desa);
         // return $exportAnggota;
-		return Excel::download($exportSaksi, 'dataSaksi.xlsx');
-	}
+        return Excel::download($exportSaksi, 'dataSaksi.xlsx');
+    }
 }

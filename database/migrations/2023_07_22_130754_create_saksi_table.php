@@ -14,7 +14,11 @@ return new class extends Migration
         Schema::create('saksi', function (Blueprint $table) {
             $table->id();
             $table->string('nik');
-            $table->string('kode_tps');
+            $table->string('provinsi');
+            $table->string('kabupaten');
+            $table->string('kecamatan');
+            $table->string('desa');
+            $table->string('tps');
             $table->timestamps();
         });
     }

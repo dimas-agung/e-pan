@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('rt');
             $table->string('rw');
             $table->string('alamat');
-            $table->integer('is_saksi')->nullable();
+            $table->integer('is_saksi')->nullable()->default(0);
             $table->string('kode_tps')->nullable();
             $table->text('description')->nullable();
             $table->string('user_created')->nullable();

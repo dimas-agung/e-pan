@@ -90,24 +90,24 @@ class AnggotaController extends Controller
             'rt' => ['required'],
             'rw' => ['required'],
             'alamat' => ['required'],
-            'img_ktp' => ['required'],
-            'img_c1' => ['required'],
+            // 'img_ktp' => ['required'],
+            // 'img_c1' => ['required'],
         ], [
             'nik.unique' => 'NIK Anggota sudah pernah didaftarkan !',
             'required' => ' :Tidak boleh kosong!'
         ]);
         //    return $request->file('img_ktp');
         $img_ktp = $request->file('img_ktp');
-        $img_c1 = $request->file('img_c1');
+        $img_kta = $request->file('img_kta');
         $path_ktp = 'ktp';
-        $path_c1 = 'c1';
+        $path_kta = 'kta';
         $img_ktp->storePubliclyAs($path_ktp, $request->nik . '_ktp.png', "public");
-        $img_c1->storePubliclyAs($path_c1, $request->nik . '_c1.png', "public");
+        $img_kta->storePubliclyAs($path_kta, $request->nik . '_kta.png', "public");
         $url_ktp = $path_ktp . '/' .  $request->nik . '_ktp.png';
-        $url_c1 = $path_c1 . '/' .  $request->nik . '_c1.png';
+        $url_kta = $path_kta . '/' .  $request->nik . '_kta.png';
         $anggota = Anggota::create($validated);
         // return response()
-        $anggota->update(['url_ktp' => $url_ktp, 'url_c1' => $url_c1]);
+        $anggota->update(['url_ktp' => $url_ktp, 'url_kta' => $url_kta]);
         //     ->json($anggota);
         return redirect('anggota')->with('success', 'Data Anggota berhasil disimpan!');
     }

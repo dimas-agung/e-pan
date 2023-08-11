@@ -17,32 +17,34 @@
             height: 100%;
             display: none;
         }
-        .image-preview-container img {
-    width: 100%;
-    display: none;
-    margin-bottom: 30px;
-}
-.image-preview-container input {
-    display: none;
-}
 
-.image-preview-container label {
-    display: block;
-    width: 45%;
-    height: 45px;
-    margin-left: 25%;
-    text-align: center;
-    background: #8338ec;
-    color: #fff;
-    font-size: 15px;
-    text-transform: Uppercase;
-    font-weight: 400;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .image-preview-container img {
+            width: 100%;
+            display: none;
+            margin-bottom: 30px;
+        }
+
+        .image-preview-container input {
+            display: none;
+        }
+
+        .image-preview-container label {
+            display: block;
+            width: 45%;
+            height: 45px;
+            margin-left: 25%;
+            text-align: center;
+            background: #8338ec;
+            color: #fff;
+            font-size: 15px;
+            text-transform: Uppercase;
+            font-weight: 400;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
     <div class="container-fluid">
         <div class="section-body">
@@ -251,19 +253,20 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                <input type="hidden" name="provinsi" id="provinsi" class="form-control"
-                                                    required />
+                                                <input type="hidden" name="provinsi" id="provinsi"
+                                                    class="form-control" required />
                                             </div>
 
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Kabupaten/Kota</label>
-                                                <select name="kabupaten_id" id="kabupaten_id" class="form-control" required onchange="getKecamatan()">
+                                                <select name="kabupaten_id" id="kabupaten_id" class="form-control"
+                                                    required onchange="getKecamatan()">
                                                     <option value=""> -- Pilih Kabupaten/Kota --</option>
                                                 </select>
-                                                <input type="hidden" name="kabupaten" id="kabupaten" class="form-control"
-                                                    required />
+                                                <input type="hidden" name="kabupaten" id="kabupaten"
+                                                    class="form-control" required />
                                             </div>
 
                                         </div>
@@ -272,18 +275,20 @@
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Kecamatan</label>
-                                                <select name="kecamatan_id" id="kecamatan_id" class="form-control" required onchange="getDesa()">
+                                                <select name="kecamatan_id" id="kecamatan_id" class="form-control"
+                                                    required onchange="getDesa()">
                                                     <option value=""> -- Pilih Kecamatan--</option>
                                                 </select>
-                                                <input type="hidden" name="kecamatan" id="kecamatan" class="form-control"
-                                                    required />
+                                                <input type="hidden" name="kecamatan" id="kecamatan"
+                                                    class="form-control" required />
                                             </div>
 
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group">
                                                 <label>Desa/Keluarahan</label>
-                                                <select name="desa_id" id="desa_id" class="form-control" required onchange="getDesaName()">
+                                                <select name="desa_id" id="desa_id" class="form-control" required
+                                                    onchange="getDesaName()">
                                                     <option value=""> -- Pilih Desa/Keluarahan --</option>
                                                 </select>
                                                 <input type="hidden" name="desa" id="desa" class="form-control"
@@ -324,25 +329,28 @@
                                 </div>
                                 <div id="data-foto">
                                     <h5>Data Foto</h5>
-        
+
                                     <div class="row">
-                                        
+
                                         <div class="col-lg-6">
                                             <div class="image-preview-container">
                                                 <div class="preview">
-                                                    <img id="preview-image-ktp" src="{{asset('storage/noimage.png')}}"  alt="Image" />
+                                                    <img id="preview-image-ktp" src="{{ asset('storage/noimage.png') }}"
+                                                        alt="Image" />
                                                 </div>
-                                                <label for="file-upload">Upload Foro KTP</label>
-                                                <input type="file" required id="file-upload" name="img_ktp" accept="image/*" onchange="previewImageKTP(event);" />
+                                                <label for="file-upload">Upload Foto KTP</label>
+                                                <input type="file" required id="file-upload" name="img_ktp"
+                                                    accept="image/*" onchange="previewImageKTP(event);" />
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="image-preview-container">
                                                 <div class="preview">
-                                                    <img id="preview-image-c1" src="{{url('/img/noimage.png')}}" />
+                                                    <img id="preview-image-kta" src="{{ url('/img/noimage.png') }}" />
                                                 </div>
-                                                <label for="foto-c1">Upload Foto C1</label>
-                                                <input type="file" required id="foto-c1" name="img_c1" accept="image/*" onchange="previewImageC1(event);" />
+                                                <label for="foto-kta">Upload Foto KTA</label>
+                                                <input type="file" required id="foto-kta" name="img_kta"
+                                                    accept="image/*" onchange="previewImageKTA(event);" />
                                             </div>
                                         </div>
                                     </div>
@@ -417,7 +425,7 @@
                 imagePreviewElement.style.display = "block";
             }
         };
-        const previewImageC1 = (event) => {
+        const previewImageKTA = (event) => {
             /**
              * Get the selected files.
              */
@@ -437,7 +445,7 @@
                 /**
                  * Select the image preview element.
                  */
-                const imagePreviewElement = document.querySelector("#preview-image-c1");
+                const imagePreviewElement = document.querySelector("#preview-image-kta");
                 /**
                  * Assign the path to the image preview element.
                  */
@@ -483,6 +491,7 @@
                 }
             })
         }
+
         function getKecamatan() {
             let kabupaten_id = $('#kabupaten_id').val()
             $.ajax({
@@ -517,6 +526,7 @@
                 }
             })
         }
+
         function getDesa() {
             let kecamatan_id = $('#kecamatan_id').val()
             $.ajax({
@@ -551,6 +561,7 @@
                 }
             })
         }
+
         function getDesaName() {
             let desa_id = $('#desa_id').val()
             $.ajax({

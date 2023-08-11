@@ -298,7 +298,7 @@
                             </div>
                             <div id="data-foto">
                                 <h5>Data Foto</h5>
-                                {{-- {{asset('storage/'.$anggota->url_ktp)}} --}}
+                                {{-- {{ asset('storage/' . $anggota->url_ktp) }} --}}
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="form-group">
@@ -312,8 +312,8 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
 
-                                            <label>Foto C1</label>
-                                            <img src="{{ asset('storage/' . $anggota->url_c1) }}" alt="">
+                                            <label>Foto KTA</label>
+                                            <img src="{{ asset('storage/' . $anggota->url_kta) }}" alt="">
 
                                         </div>
                                     </div>
