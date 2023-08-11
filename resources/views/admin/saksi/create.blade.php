@@ -160,7 +160,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div id="data-foto">
+                                {{-- <div id="data-foto">
                                     <h5>Data Foto</h5>
 
                                     <div class="row">
@@ -175,7 +175,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="row mb-0">
                                     <div class="col-md-6 offset-md-9">

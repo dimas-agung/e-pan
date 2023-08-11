@@ -98,14 +98,10 @@ class SaksiController extends Controller
             'desa' => ['required'],
             'tps' => ['required'],
         ]);
-        $img_c1 = $request->file('img_c1');
-        $path_c1 = 'c1';
-        $img_c1->storePubliclyAs($path_c1, $request->nik . '_c1.png', "public");
-        $url_c1 = $path_c1 . '/' .  $request->nik . '_c1.png';
 
         $saksi = Saksi::create($validated);
 
-        $anggota = Anggota::where('nik', $request->input('nik'))->update(['is_saksi' => 1, 'url_c1' => $url_c1]);
+        $anggota = Anggota::where('nik', $request->input('nik'))->update(['is_saksi' => 1]);
 
         return redirect('saksi')->with('success', 'Data Saksi berhasil disimpan!');
     }
