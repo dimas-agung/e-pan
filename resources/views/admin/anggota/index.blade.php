@@ -83,7 +83,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            {{ $anggota->links() }}
+                            {{ $anggota->links('vendor.pagination.bootstrap-5') }}
                             <div>Showing {{ ($anggota->currentpage() - 1) * $anggota->perpage() + 1 }} to
                                 {{ $anggota->currentpage() * $anggota->perpage() }}
                                 of {{ $anggota->total() }} entries

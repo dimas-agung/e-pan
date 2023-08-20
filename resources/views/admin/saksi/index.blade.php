@@ -77,7 +77,7 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        {{$saksi->links()}}
+                        {{$saksi->links('vendor.pagination.bootstrap-5')}}
                         <div>Showing {{($saksi->currentpage()-1)*$saksi->perpage()+1}} to {{$saksi->currentpage()*$saksi->perpage()}}
                             of  {{$saksi->total()}} entries
                         </div>
