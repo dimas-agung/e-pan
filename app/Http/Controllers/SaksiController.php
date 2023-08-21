@@ -168,6 +168,7 @@ class SaksiController extends Controller
             'alamat' => ['required'],
         ]);
         // return $anggota;
+        
         $anggota->update($validated);
 
         return redirect('anggota')->with('success', 'Data Anggota berhasil diupdate!');

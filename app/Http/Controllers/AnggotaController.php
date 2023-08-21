@@ -184,6 +184,24 @@ class AnggotaController extends Controller
         // return $anggota;
         $anggota->update($validated);
 
+        $path_ktp = 'ktp';
+        $path_kta = 'kta';
+        $url_ktp = null;
+        $url_kta = null;
+        if ($request->file('img_ktp')) {
+            # code...
+            $img_ktp = $request->file('img_ktp');
+            $img_ktp->storePubliclyAs($path_ktp, $request->nik . '_ktp.png', "public");
+            $url_ktp = $path_ktp . '/' .  $request->nik . '_ktp.png';
+        }
+        if ($request->file('img_kta')) {
+            $img_kta = $request->file('img_kta');
+            $img_kta->storePubliclyAs($path_kta, $request->nik . '_kta.png', "public");
+            $url_kta = $path_kta . '/' .  $request->nik . '_kta.png';
+        }
+        // return response()
+        $anggota->update(['url_ktp' => $url_ktp, 'url_kta' => $url_kta]);
+
         return redirect('anggota')->with('success', 'Data Anggota berhasil diupdate!');
     }
 

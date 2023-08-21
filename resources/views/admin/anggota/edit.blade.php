@@ -2,21 +2,49 @@
 
 @section('content')
 <style>
-#drop-zone {
-    max-width: 450px;
-    height: 150px;
-    border: 2px dotted blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    #drop-zone {
+        max-width: 450px;
+        height: 150px;
+        border: 2px dotted blue;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        display: none;
+    }
+
+    .image-preview-container img {
+        width: 100%;
+        display: none;
+        margin-bottom: 30px;
+    }
+
+    .image-preview-container input {
+        display: none;
+    }
+
+    .image-preview-container label {
+        display: block;
+        width: 45%;
+        height: 45px;
+        margin-left: 25%;
+        text-align: center;
+        background: #8338ec;
+        color: #fff;
+        font-size: 15px;
+        text-transform: Uppercase;
+        font-weight: 400;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
 <div class="container-fluid">
     <div class="section-body">
@@ -38,7 +66,7 @@ img {
                     <div class="card-header">{{ __('Edit Anggota') }}</div>
 
                     <div class="card-body" style="font-size: 14px;">
-                        <form method="POST" action="{{ route('anggota.update',$anggota->id) }}">
+                        <form method="POST" action="{{ route('anggota.update',$anggota->id) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div id="data-diri">
@@ -320,6 +348,35 @@ img {
                                     </div>
                                 </div>
                             </div>
+                            <div id="data-foto">
+                                <h5>Data Foto</h5>
+
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="image-preview-container">
+                                            <div class="preview">
+                                                <img id="preview-image-ktp" src="{{asset('storage/'.$item->url_ktp)}}" 
+                                                    alt="Image" />
+                                            </div>
+                                            <label for="file-upload">Upload Foto KTP</label>
+                                            <input type="file" required id="file-upload" name="img_ktp"
+                                                accept="image/*" onchange="previewImageKTP(event);" />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="image-preview-container">
+                                            <div class="preview">
+                                                <img id="preview-image-kta" src="{{asset('storage/'.$item->url_kta)}}" />
+                                            </div>
+                                            <label for="foto-kta">Upload Foto KTA</label>
+                                            <input type="file" required id="foto-kta" name="img_kta"
+                                                accept="image/*" onchange="previewImageKTA(event);" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                             {{-- <div id="data-foto">
                                     <h5>Data Foto</h5>
         
@@ -420,6 +477,70 @@ dropZone.addEventListener('drop', (e) => {
         img.alt = file.name
     }
 });
+</script>
+<script>
+    const previewImageKTP = (event) => {
+        /**
+         * Get the selected files.
+         */
+        const imageFiles = event.target.files;
+        /**
+         * Count the number of files selected.
+         */
+        const imageFilesLength = imageFiles.length;
+        /**
+         * If at least one image is selected, then proceed to display the preview.
+         */
+        if (imageFilesLength > 0) {
+            /**
+             * Get the image path.
+             */
+            const imageSrc = URL.createObjectURL(imageFiles[0]);
+            /**
+             * Select the image preview element.
+             */
+            const imagePreviewElement = document.querySelector("#preview-image-ktp");
+            /**
+             * Assign the path to the image preview element.
+             */
+            imagePreviewElement.src = imageSrc;
+            /**
+             * Show the element by changing the display value to "block".
+             */
+            imagePreviewElement.style.display = "block";
+        }
+    };
+    const previewImageKTA = (event) => {
+        /**
+         * Get the selected files.
+         */
+        const imageFiles = event.target.files;
+        /**
+         * Count the number of files selected.
+         */
+        const imageFilesLength = imageFiles.length;
+        /**
+         * If at least one image is selected, then proceed to display the preview.
+         */
+        if (imageFilesLength > 0) {
+            /**
+             * Get the image path.
+             */
+            const imageSrc = URL.createObjectURL(imageFiles[0]);
+            /**
+             * Select the image preview element.
+             */
+            const imagePreviewElement = document.querySelector("#preview-image-kta");
+            /**
+             * Assign the path to the image preview element.
+             */
+            imagePreviewElement.src = imageSrc;
+            /**
+             * Show the element by changing the display value to "block".
+             */
+            imagePreviewElement.style.display = "block";
+        }
+    };
 </script>
 <script>
     function getKabupatenEdit() {
