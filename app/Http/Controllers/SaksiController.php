@@ -18,7 +18,7 @@ class SaksiController extends Controller
     //
     public function __construct()
     {
-        // $this->middleware('auth');
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -91,7 +91,7 @@ class SaksiController extends Controller
     {
         $validated = $request->validate([
             'nik' => ['required'],
-            'nama' => ['required'],
+            // 'nama' => ['required'],
             'provinsi' => ['required'],
             'kabupaten' => ['required'],
             'kecamatan' => ['required'],
