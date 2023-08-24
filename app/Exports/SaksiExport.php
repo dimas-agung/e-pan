@@ -38,7 +38,7 @@ class SaksiExport extends DefaultValueBinder implements WithCustomValueBinder, F
     {
         if ($this->desa != null  && $this->kecamatan != null) {
             # code...
-            $saksi = Saksi::with('anggota')->where('desa', 'like', '%' . $this->desa . '%')->where('kecamatan', $this->kecamatan)->orderBy('desa')->get();
+            $saksi = Saksi::where('desa', 'like', '%' . $this->desa . '%')->where('kecamatan', $this->kecamatan)->with('anggota')->orderBy('desa')->get();
         } else if ($this->desa == null  && $this->kecamatan != null) {
             # code...
             $saksi = Saksi::with('anggota')->where('kecamatan', $this->kecamatan)->orderBy('desa')->get();
