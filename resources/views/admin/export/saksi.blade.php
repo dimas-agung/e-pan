@@ -23,11 +23,11 @@
             <tr>
                 <td>{{ $key + 1 }}</td>
                 <td>{{ $item->anggota->nama }}</td>
-                <td>'{{ (string) $item->anggota->nik }}</td>
+                <td>{{ (string) $item->anggota->nik }}</td>
                 <td>{{ $item->anggota->tanggal_lahir }}</td>
                 <td>{{ $item->anggota->gender }}</td>
                 <td>{{ $item->anggota->agama }}</td>
-                <td>'{{ (string) $item->anggota->telpon }}</td>
+                <td>{{ (string) $item->anggota->telpon }}</td>
                 <td>{{ $item->anggota->kabupaten }}</td>
                 <td>{{ $item->anggota->kecamatan }}</td>
                 <td>{{ $item->anggota->desa }}</td>
