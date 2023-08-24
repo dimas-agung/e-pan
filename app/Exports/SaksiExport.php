@@ -8,7 +8,13 @@ use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class SaksiExport implements FromView, ShouldAutoSize
+use Maatwebsite\Excel\Concerns\WithCustomValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\DefaultValueBinder;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
+use Maatwebsite\Excel\Concerns\ToModel;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+
+class SaksiExport extends DefaultValueBinder implements WithCustomValueBinder, FromView, ShouldAutoSize
 {
     private $kecamatan;
     private $desa;
@@ -16,6 +22,17 @@ class SaksiExport implements FromView, ShouldAutoSize
     {
         $this->kecamatan = $kecamatan;
         $this->desa = $desa;
+    }
+    public function bindValue(Cell $cell, $value)
+    {
+        if (is_numeric($value)) {
+            $cell->setValueExplicit($value, DataType::TYPE_STRING);
+
+            return true;
+        }
+
+        // else return default behavior
+        return parent::bindValue($cell, $value);
     }
     public function view(): View
     {
