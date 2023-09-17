@@ -71,6 +71,12 @@ Route::prefix('/rekapitulasi')->group(function () {
     Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
         Route::get('/desa', 'desa')->name('rekapitulasi.desa');
     });
+    Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
+        Route::get('/detail', 'detail')->name('rekapitulasi.detail');
+    });
+    Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
+        Route::get('/export', 'export')->name('rekapitulasi.export');
+    });
 });
 
 Auth::routes();

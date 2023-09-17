@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\RekapitulasiExport;
+use App\Models\Anggota;
 use App\Models\Desa;
 use App\Models\Kabupaten;
 use App\Models\Kecamatan;
+use App\Models\Saksi;
 use App\Models\Tps;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Calculation\MathTrig\Angle;
 
 class RekapitulasiSaksiController extends Controller
 {
@@ -136,5 +141,47 @@ class RekapitulasiSaksiController extends Controller
             'kecamatan' => $kecamatan,
             'kabupaten' => $kabupaten,
         ]);
+    }
+    public function detail(Request $request)
+    {
+        if ($request->input('kabupaten')) {
+            $request->session()->put('kabupaten',$request->input('kabupaten'));
+        }
+        $kabupaten = $request->session()->get('kabupaten');
+        if ($request->input('kecamatan')) {
+            $request->session()->put('kecamatan',$request->input('kecamatan'));
+        }
+        $kecamatan = $request->session()->get('kecamatan');
+        if ($request->input('desa')) {
+            $request->session()->put('desa',$request->input('desa'));
+        }
+        $desa = $request->session()->get('desa');
+        if (!$kabupaten && $kecamatan)  {
+            abort(404);
+        }
+        if ($request->input('search')) {
+            $saksi = Saksi::with('anggota')->where('saksi.kabupaten',$kabupaten)->where('saksi.kecamatan',$kecamatan)->where('saksi.desa',$desa)->where('nama', 'LIKE', "%{$request->input('search')}%")->orWhere('nik', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        } else {
+            $saksi = Saksi::with('anggota')->where('saksi.kabupaten',$kabupaten)->where('saksi.kecamatan',$kecamatan)->where('saksi.desa',$desa)->latest()->paginate(10);
+           
+        }
+        // return $saksi;
+
+        return response()->view('admin.rekapitulasi.detail', [
+            'saksi' => $saksi,
+            'desa' => $desa,
+            'kecamatan' => $kecamatan,
+            'kabupaten' => $kabupaten,
+        ]);
+    }
+    public function export(Request $request)
+    {
+        // return Anggota::query()->saksi()->with('saksi')->orderBy('nama')->get();
+        $desa = $request->input('desa') == '' ? null : $request->input('desa');
+        $kecamatan = $request->input('kecamatan') == '' ? null : $request->input('kecamatan');
+        // return $kecamatan;
+        $exportSaksi = new RekapitulasiExport($kecamatan, $desa);
+        // return $exportSaksi;
+        return Excel::download($exportSaksi, 'Rekapitulasi Saksi.xlsx');
     }
 }

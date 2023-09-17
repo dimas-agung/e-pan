@@ -14,9 +14,9 @@
                         {{ session('success') }}
                     </div>
                     @endif
-                    {{-- <div>
-                        <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
-                    </div> --}}
+                    <div>
+                        <a href="{{url('rekapitulasi/export?kabupaten=' . $kabupaten)}}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                    </div>
                     <br />
 
 

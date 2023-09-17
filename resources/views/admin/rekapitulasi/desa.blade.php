@@ -13,9 +13,9 @@
                         {{ session('success') }}
                     </div>
                     @endif
-                    {{-- <div>
-                        <a onclick="modalExport()" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
-                    </div> --}}
+                    <div>
+                        <a href="{{url('rekapitulasi/export?kabupaten=' . $kabupaten.'&kecamatan='.$kecamatan)}}" class="btn btn-success"><i class="fas fa-file-excel"></i> Export</a>
+                    </div>
                     <br />
 
 
@@ -43,7 +43,7 @@
                                     <td>Jumlah TPS</td>
                                     <td>Jumlah Saksi</td>
                                     <td>Jumlah DPT</td>
-                                    {{-- <td>Aksi</td> --}}
+                                    <td>Aksi</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,10 +54,10 @@
                                     <td>{{ $item->jumlah }}</td>
                                     <td>{{ $item->count }}</td>
                                     <td>{{ $item->dpt }}</td>
-                                    {{-- <td>
-                                        <a class="btn btn-sm btn-info" href="{{ url('anggota/' . $item->kecamatan) }}"> <i
+                                    <td>
+                                        <a class="btn btn-sm btn-info" href="{{ url('rekapitulasi/detail?kecamatan=' . $kecamatan.'&desa=' .$item->desa) }}"> <i
                                                 class="fas fa-eye"></i></a>                                   
-                                    </td> --}}
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
