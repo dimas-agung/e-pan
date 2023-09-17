@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Exports\SaksiExport;
 use App\Models\Anggota;
 use App\Models\Kabupaten;
+use App\Models\Kecamatan;
 use App\Models\Provinsi;
 use App\Models\Saksi;
 use App\Models\Tps;
 use Illuminate\Http\Request;
-
-
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class SaksiController extends Controller
@@ -40,6 +40,7 @@ class SaksiController extends Controller
             'provinsi' => $provinsi
         ]);
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -209,5 +210,20 @@ class SaksiController extends Controller
         $exportSaksi = new SaksiExport($kecamatan, $desa);
         // return $exportAnggota;
         return Excel::download($exportSaksi, 'dataSaksi.xlsx');
+    }
+    public function rekapitulasi(Request $request)
+    {
+        if ($request->input('search')) {
+            $tps = Tps::query()->rekapitulasi()->orderBy('tps.kecamatan')->where('tps.kecamatan', 'LIKE', "%{$request->input('search')}%")->paginate(10);
+            // $saksi = Anggota::query()->saksi()->where('kecamatan', 'LIKE', "%{$request->input('search')}%")->latest()->paginate(10);
+        } else {
+            $tps = Tps::query()->rekapitulasi()->orderBy('tps.kecamatan')->paginate(10);
+        }
+        // return $tps;
+        // return $anggota;
+        $provinsi = Kecamatan::orderBy('kecamatan')->get();
+        return response()->view('admin.saksi.rekapitulasi', [
+            'tps' => $tps,
+        ]);
     }
 }

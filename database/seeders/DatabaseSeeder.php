@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
     /**
      * Seed the application's database.
      */
-    protected $toTruncate = ['users','anggota','provinsi','kabupaten','kecamatan'];
+    protected $toTruncate = ['users','anggota','provinsi','kabupaten','kecamatan','tps'];
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();

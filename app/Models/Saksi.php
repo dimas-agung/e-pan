@@ -17,6 +17,7 @@ class Saksi extends Model
     }
     public function tps()
     {
-        return $this->belongsTo(Tps::class, 'kdoe_tps', 'kdoe_tps');
+        return $this->belongsTo(Tps::class, 'kode_tps', 'kode_tps');
     }
+    
 }

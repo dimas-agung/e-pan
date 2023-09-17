@@ -14,14 +14,14 @@ class SaksiSeeder extends Seeder
     public function run(): void
     {
         //
-        $data = [
-            [
-                'nik' => '4782821921123',
-                'kode_tps' => '001',
-            ],
+        // $data = [
+        //     [
+        //         'nik' => '4782821921123',
+        //         'kode_tps' => '001',
+        //     ],
 
 
-        ];
-        Saksi::insert($data);
+        // ];
+        // Saksi::insert($data);
     }
 }

@@ -103,6 +103,8 @@
                         <h6 class="collapse-header ">Data Saksi</h6>
                         <a class="collapse-item "
                             href="{{ url('saksi') }}">Saksi</a>
+                        <a class="collapse-item "
+                            href="{{ url('rekapitulasi/kabupaten') }}">Rekapitulasi</a>
                         
                     </div>
                 </div>

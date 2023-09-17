@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('kecamatan');
             $table->string('desa');
             $table->integer('jumlah');
+            $table->integer('dpt');
             $table->timestamps();
         });
     }

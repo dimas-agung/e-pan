@@ -39,6 +39,7 @@ Route::controller(App\Http\Controllers\SaksiController::class)->group(function (
     Route::get('/saksi/cek-kuota-tps', 'cekTPSAvailable');
     Route::get('/saksi/create', 'create');
     Route::post('/saksi', 'store')->name('saksi.store');
+    Route::get('/saksi/rekapitulasi', 'rekapitulasi');
     Route::get('/saksi/{saksi}', 'show');
     Route::get('/saksi/{saksi}/edit', 'edit');
     Route::put('/saksi/{saksi}', 'update')->name('saksi.update');
@@ -58,6 +59,17 @@ Route::prefix('/wilayah')->group(function () {
     });
     Route::controller(App\Http\Controllers\DesaController::class)->group(function () {
         Route::get('/desa', 'index')->name('desa.index');
+    });
+});
+Route::prefix('/rekapitulasi')->group(function () {
+    Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
+        Route::get('/kabupaten', 'kabupaten')->name('rekapitulasi.kabupaten');
+    });
+    Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
+        Route::get('/kecamatan', 'kecamatan')->name('rekapitulasi.kecamatan');
+    });
+    Route::controller(App\Http\Controllers\RekapitulasiSaksiController::class)->group(function () {
+        Route::get('/desa', 'desa')->name('rekapitulasi.desa');
     });
 });
 
